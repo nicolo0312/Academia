@@ -33,8 +33,29 @@ $app->get('/', function (Request $request, Response $response, array $args) use 
     $template = $twig->load('index.html');
 
     $response->getBody()->write(
-        $template->render(['name' => 'Dario'])
+        $template->render()
     );
+    return $response;
+});
+// $app->get('/Registrarse', function (Request $request, Response $response, array $args) use ($twig) {
+    
+//     $template = $twig->load('index.html');
+
+//     $response->getBody()->write(
+//         $template->render()
+//     );
+//     return $response;
+// });
+$app->post('/Registrarse', function (Request $request, Response $response, array $args) use ($userService) {
+    if ($userService->register($_POST["userId"], $_POST["name"], $_POST["password"])==True){
+        $response=$response->withStatus(302);
+        $response=$response->withHeader("location","/");
+    }
+     else{
+        $response=$response->withStatus(302);
+        $response=$response->withHeader("location","Registrarse");
+     }
+
     return $response;
 });
 
@@ -43,9 +64,35 @@ $app->get('/contacto', function (Request $request, Response $response, array $ar
     $template = $twig->load('contacto.html');
 
     $response->getBody()->write(
-        $template->render(['name' => 'Dario'])
+        $template->render()
     );
     return $response;
 });
+
+$app->post('/Logearse', function (Request $request, Response $response, array $args) use ($loginService) {
+    $user=$loginService->login($_POST["userId"], $_POST["password"]);
+
+        if (!$user instanceof \Tuiter\Models\UserNull){
+            $response=$response->withStatus(302);
+            $response=$response->withHeader("location", "/user/me");
+        }else{
+            $response=$response->withStatus(302);
+            $response=$response->withHeader("location", "/");
+        }
+
+    
+
+    return $response;
+});
+$app->get('/user/me', function (Request $request, Response $response, array $args) use ($twig) {
+    
+    $template = $twig->load('index.html');
+
+    $response->getBody()->write(
+        $template->render()
+    );
+    return $response;
+});
+
 
 $app->run();

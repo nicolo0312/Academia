@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Este es el contenido del index, gracias por venir {{ name }}</p>
+    <p>Bienvenidos a Tuiter</p><br>
+    <h1>REGISTRARSE</h1>
+    <form action="Registrarse" method="post">
+        <p>UserId</p> <input type="text" name="userId"/>
+        <p>Usuario</p> <input type="text" name="name"/>
+        <p>Contraseña</p> <input type="text" name="password"/>
+        <input type="submit" value="Registrarse"/>
+    </form>
+    <h1>Logearse</h1>
+    <form action="Logearse" method="post">
+     <p>UserId</p><input type="text" name="userId"/>
+     <p>Contraseña</p><input type="text" name="password"/>
+     <input type="submit" value="Logearse"/>
+    </form>
+
 {% endblock %}
